@@ -19,6 +19,10 @@
  */
 var maxSumSubmatrix = function(matrix, k) {
   // Brute force, compute all rectangle sums and keep track of the maximum no larger than k
+
+  // number of times 'while' loop is executed
+  let cnt = 0;
+
   let numRows = matrix.length;
   let numCols = matrix[0].length;
 
@@ -26,21 +30,26 @@ var maxSumSubmatrix = function(matrix, k) {
   let max = -Infinity;
 
   // memoize previous computed rectangles
-  // key: JSON.stringify([upperleft r, upperleft c, lowerright r, lowerright c])
+  // key: JSON.stringify([upperLeft r, upperLeft c, lowerRight r, lowerRight c])
   // value: sum of rectangle
   let storage = {};
 
-  let lrR = numRows - 1, lrC = numCols - 1;
-  let ulR = lrR, ulC = lrC;
+  let lowerRightRow = numRows - 1, lowerRightCol = numCols - 1;
+  let upperLeftRow = lowerRightRow, upperLeftCol = lowerRightCol;
 
   while (true) {
+    cnt++;
+    console.log('upperLeftRow:', upperLeftRow, 'upperLeftCol:', upperLeftCol, 'lowerRightRow:', lowerRightRow, 'lowerRightCol:', lowerRightCol);
+
     recSum =
-      matrix[ulR][ulC]
-      + (storage[JSON.stringify([ulR + 1, ulC, lrR, lrC])] ? storage[JSON.stringify([ulR + 1, ulC, lrR, lrC])] : 0)
-      + (storage[JSON.stringify([ulR, ulC + 1, lrR, lrC])] ? storage[JSON.stringify([ulR, ulC + 1, lrR, lrC])] : 0)
-      - (storage[JSON.stringify([ulR + 1, ulC + 1, lrR, lrC])] ? storage[JSON.stringify([ulR + 1, ulC + 1, lrR, lrC])] : 0);
+      matrix[upperLeftRow][upperLeftCol]
+      + (storage[JSON.stringify([upperLeftRow + 1, upperLeftCol, lowerRightRow, lowerRightCol])] ? storage[JSON.stringify([upperLeftRow + 1, upperLeftCol, lowerRightRow, lowerRightCol])] : 0)
+      + (storage[JSON.stringify([upperLeftRow, upperLeftCol + 1, lowerRightRow, lowerRightCol])] ? storage[JSON.stringify([upperLeftRow, upperLeftCol + 1, lowerRightRow, lowerRightCol])] : 0)
+      - (storage[JSON.stringify([upperLeftRow + 1, upperLeftCol + 1, lowerRightRow, lowerRightCol])] ? storage[JSON.stringify([upperLeftRow + 1, upperLeftCol + 1, lowerRightRow, lowerRightCol])] : 0);
 
     if (recSum === k) {
+      console.log('Storage', storage);
+      console.log('cnt', cnt);
       return k;
     }
 
@@ -48,42 +57,44 @@ var maxSumSubmatrix = function(matrix, k) {
       max = recSum;
     }
 
-    storage[JSON.stringify([ulR, ulC, lrR, lrC])] = recSum;
+    storage[JSON.stringify([upperLeftRow, upperLeftCol, lowerRightRow, lowerRightCol])] = recSum;
 
-    ulC--;
-    if (ulC === -1) {
-      ulR--;
-      ulC = lrC - 1;
+    upperLeftCol--;
+    if (upperLeftCol === -1) {
+      upperLeftRow--;
+      upperLeftCol = lowerRightCol;
+      if (upperLeftRow === -1) {
+        lowerRightCol--;
+        if (lowerRightCol === -1) {
+          lowerRightRow--;
+          lowerRightCol = numCols - 1;
+          if (lowerRightRow === -1) {
+            console.log('Storage', storage);
+            console.log('cnt', cnt);
+            return max;
+          }
+        }
+        upperLeftRow = lowerRightRow;
+        upperLeftCol = lowerRightCol;
+      }
     }
-
-    // if (ulR === -1) {
-    //   lrC--;
-    //   if (lrC === -1) {
-    //     lrR--;
-    //     lrC === numCols - 1;
-    //   }
-    //   if (lrR === -1) {
-    //     return max;
-    //   }
-    //   ulR = lrR;
-    //   ulC = lrC;
-    // }
   }
-  console.log('Storage', storage);
 };
 
+
 // Testing
+// console.log('Answer is',
+//   maxSumSubmatrix(
+//     [
+//       [1, 0, 1],
+//       [0, -2, 3],
+//       [4, 2, 1]
+//     ],
+//     15
+//   )
+// );
 
-console.log(
-  maxSumSubmatrix(
-    [
-      [1, 0, 1],
-      [0, -2, 3]
-    ],
-    2
-  )
-);
-
+// console.log('Answer is', maxSumSubmatrix([[1], [-1], [-5]], 1));
 
 
 
