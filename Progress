@@ -1,5 +1,15 @@
+TODO:
+- traversalAlgos
+  - DFS, BFS
+  - pre/post/in-order
+- sortingAlgos
+  - selectionSort
+  - insertionSort
+  - bucketSort
+  - heapSort
+
 incomplete:
   taskRunner.js
 
-comeback to:
+come back to:
   maxSumSubmatrix
