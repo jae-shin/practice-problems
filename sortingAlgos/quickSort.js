@@ -51,11 +51,3 @@ console.log(quickSort([1]));
 console.log(quickSort([2, 1]));
 console.log(quickSort([4, 3, 2, 1]));
 console.log(quickSort([4, 8, 6, 5, 9, 2, 1, 3]));
-
-
-
-
-
-
-
-

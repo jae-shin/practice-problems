@@ -2,14 +2,14 @@ TODO:
 - traversalAlgos
   - DFS, BFS
   - pre/post/in-order
-- sortingAlgos
-  - selectionSort
-  - insertionSort
-  - bucketSort
-  - heapSort
 
 incomplete:
   taskRunner.js
 
 come back to:
   maxSumSubmatrix
+
+  - sortingAlgos (read about)
+    - insertionSort
+    - bucketSort
+    - heapSort

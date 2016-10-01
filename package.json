@@ -1,0 +1,26 @@
+{
+  "name": "practice-problems",
+  "version": "1.0.0",
+  "description": "practice problems",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jae-shin/practice-problems.git"
+  },
+  "author": "Jae Shin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jae-shin/practice-problems/issues"
+  },
+  "homepage": "https://github.com/jae-shin/practice-problems#readme",
+  "devDependencies": {
+    "eslint": "^3.7.0",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^2.0.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.3.0"
+  }
+}
