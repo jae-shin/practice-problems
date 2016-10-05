@@ -9,10 +9,12 @@ const stackBoxes = (boxes, ordered = false, boxNum = 0, memo = [], bottom = null
 
   const length = boxes.length;
 
+  // sort boxes array in first function call
   if (!ordered) {
     boxes.sort((a, b) => b[2] - a[2]);
   }
 
+  // find the next box that can be stacked on top of the current bottom
   if (bottom) {
     while (boxNum < length && (boxes[boxNum][0] >= bottom[0] || boxes[boxNum][1] >= bottom[1] || boxes[boxNum][2] >= bottom[2])) {
       boxNum += 1;
