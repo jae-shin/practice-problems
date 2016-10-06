@@ -30,6 +30,7 @@ class BinaryTree {
   }
 }
 
+// Three forms of Depth First Search
 const inOrderTraversal = (node, visit) => {
   if (node !== null) {
     inOrderTraversal(node.left, visit);
@@ -54,6 +55,22 @@ const postOrderTraversal = (node, visit) => {
   }
 };
 
+const breadthFirstSearch = (node, visit) => {
+  const queue = [node];
+  let current;
+
+  while (queue.length > 0) {
+    current = queue.shift();
+    visit(current);
+    if (current.left !== null) {
+      queue.push(current.left);
+    }
+    if (current.right !== null) {
+      queue.push(current.right);
+    }
+  }
+};
+
 
 /*
        1
@@ -70,7 +87,7 @@ binaryTree.right.addLeft(6).addRight(7);
 
 // inOrderTraversal(binaryTree, node => console.log(node.value));
 // preOrderTraversal(binaryTree, node => console.log(node.value));
-postOrderTraversal(binaryTree, node => console.log(node.value));
+// postOrderTraversal(binaryTree, node => console.log(node.value));
+breadthFirstSearch(binaryTree, node => console.log(node.value));
 
-// 4, 5, 2, 6, 7, 3, 1
 
