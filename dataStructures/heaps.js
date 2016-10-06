@@ -100,9 +100,8 @@ class BinaryHeap {
     this.heap[0] = this.heap[this.heap.length - 1];
     this.heap = this.heap.slice(0, -1);
 
-    let index, leftIx, leftVal, rightIx, rightVal, swapIx, swapVal;
-
     if (this.heap.length > 0) {
+      let index, leftIx, leftVal, rightIx, rightVal, swapIx, swapVal;
       index = 0;
       leftIx = index * 2 + 1;
       rightIx = index * 2 + 2;
@@ -133,28 +132,54 @@ class BinaryHeap {
   }
 }
 
+const heapSort = (array) => {
+  const sorted = [];
+
+  const minHeap = new BinaryHeap([], (v1, v2) => v1 < v2);
+
+  array.forEach(value => {
+    minHeap.insert(value);
+  });
+
+  for (let i = 0; i < array.length; i++) {
+    sorted.push(minHeap.extractRoot());
+  }
+
+  return sorted;
+};
 
 // Tests
-let binaryMinHeap = new BinaryHeap([], (v1, v2) => v1 < v2);
-binaryMinHeap.insert(1);
-console.log(binaryMinHeap.heap); // [1]
+console.log(heapSort([]));
+console.log(heapSort([1]));
+console.log(heapSort([3, 1]));
+console.log(heapSort([2, 3, 1]));
+console.log(heapSort([2, 50, 4, 55, 90, 87, 7]));
 
-binaryMinHeap = new BinaryHeap([4], (v1, v2) => v1 < v2);
-binaryMinHeap.insert(2);
-console.log(binaryMinHeap.heap); // [2, 4]
 
-binaryMinHeap = new BinaryHeap([4, 50, 7, 55, 90, 87], (v1, v2) => v1 < v2);
-binaryMinHeap.insert(2);
-console.log(binaryMinHeap.heap); // [2, 50, 4, 55, 90, 87, 7]
 
-let binaryMinHeap2 = new BinaryHeap([10, 50, 23, 88, 90, 32, 74, 96], (v1, v2) => v1 < v2);
-binaryMinHeap2.extractRoot();
-console.log(binaryMinHeap2.heap); // [23, 50, 32, 88, 90, 96, 74]
 
-let binaryMaxHeap = new BinaryHeap([40, 27, 16, 2, 10, 8], (v1, v2) => v1 > v2);
-binaryMaxHeap.insert(19);
-console.log(binaryMaxHeap.heap); // [ 40, 27, 19, 2, 10, 8, 16 ]
+// // Tests
+// let binaryMinHeap = new BinaryHeap([], (v1, v2) => v1 < v2);
+// binaryMinHeap.insert(1);
+// console.log(binaryMinHeap.heap); // [1]
 
-let binaryMaxHeap2 = new BinaryHeap([91, 48, 62, 30, 10, 51], (v1, v2) => v1 > v2);
-binaryMaxHeap2.extractRoot();
-console.log(binaryMaxHeap2.heap); // [62, 48, 51, 30, 10]
+// binaryMinHeap = new BinaryHeap([4], (v1, v2) => v1 < v2);
+// binaryMinHeap.insert(2);
+// console.log(binaryMinHeap.heap); // [2, 4]
+
+// binaryMinHeap = new BinaryHeap([4, 50, 7, 55, 90, 87], (v1, v2) => v1 < v2);
+// binaryMinHeap.insert(2);
+// console.log(binaryMinHeap.heap); // [2, 50, 4, 55, 90, 87, 7]
+
+// let binaryMinHeap2 = new BinaryHeap([10, 50, 23, 88, 90, 32, 74, 96], (v1, v2) => v1 < v2);
+// binaryMinHeap2.extractRoot();
+// console.log(binaryMinHeap2.heap); // [23, 50, 32, 88, 90, 96, 74]
+
+// let binaryMaxHeap = new BinaryHeap([40, 27, 16, 2, 10, 8], (v1, v2) => v1 > v2);
+// binaryMaxHeap.insert(19);
+// console.log(binaryMaxHeap.heap); // [ 40, 27, 19, 2, 10, 8, 16 ]
+
+// let binaryMaxHeap2 = new BinaryHeap([91, 48, 62, 30, 10, 51], (v1, v2) => v1 > v2);
+// binaryMaxHeap2.extractRoot();
+// console.log(binaryMaxHeap2.heap); // [62, 48, 51, 30, 10]
+
