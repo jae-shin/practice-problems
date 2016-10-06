@@ -1,11 +1,21 @@
-# Sorting Algorithms
+# Data Structures
 
 ## Table of Contents
-Stacks, Queues, Linked Lists, Trees, Graphs, Heaps
+Hash Tables, Stacks, Queues, Linked Lists, Trees, Graphs, Heaps
+
+## Hash Tables
+### Implementation:
+- Object or Array of arrays (buckets)
+- Methods: `.insert()`, `.retrieve()`, `.remove()`
+
+### Example Use Cases:
+
+### Tricks:
 
 ## Stacks
 ### Implementation:
 - Array
+- Methods: `.peek()`
 
 ### Example Use Cases:
 - Balancing parens
@@ -15,6 +25,7 @@ Stacks, Queues, Linked Lists, Trees, Graphs, Heaps
 ## Queues
 ### Implementation:
 - Two stacks (inbox, outbox)
+- Methods: `.peek()`
 
 ### Example Use Cases:
 - Breadth First Search
@@ -23,17 +34,22 @@ Stacks, Queues, Linked Lists, Trees, Graphs, Heaps
 
 ## Linked Lists
 ### Implementation:
--
+- `LinkedList` class
+  - Properties: `.head`, `.tail`
+  - Methods: `.addToTail()`, `.removeHead()`, `.contains()`
+- `Node` class
+  - Properties: `.value`, `.next`
 
 ### Example Use Cases:
--
 
 ### Tricks:
 - keep track of two nodes simultaneously
 
 ## Trees
 ### Implementation:
-- `Tree/Node` class (`.value`, `.children` array or `.left` `.right` for binary)
+- `Tree/Node` class
+  - Properties: `.value`, `.children` array or `.left` `.right` for binary tree
+  - Methods: `.addChild()`, `.contains()`
 
 ### Example Use Cases:
 
@@ -42,7 +58,11 @@ Stacks, Queues, Linked Lists, Trees, Graphs, Heaps
 ## Graphs
 
 ### Implementation:
-- `Graph` class (`.nodes` array), `Node` class (`.value`, `.edges` array)
+- `Graph` class
+  - Properties: `.nodes` array
+  - Methods: `.addNode()`
+- `Node` class
+  - Properties: `.value`, `.edges` array
 
 ### Example Use Cases:
 
@@ -54,6 +74,7 @@ Stacks, Queues, Linked Lists, Trees, Graphs, Heaps
 
 ### Implementation:
 - Array: the indices of parent and children can be accessed using mathematical equations
+- Methods: `.insert(value)`, `.removeRoot()`
 
 ### Example Use Cases:
 - Heap Sort
