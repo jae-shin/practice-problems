@@ -51,6 +51,8 @@ var lengthLongestPath = function(input) {
     currDepth = tabArr.length - 1;
 
     if (currDepth < depth) {
+      // more time efficient to '.pop' (depth - currDepth) times
+      // since most of the time you are only popping 1 or 2 elements at the end
       path = path.slice(0, path.length - (depth - currDepth));
       depth = currDepth;
     }
