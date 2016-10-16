@@ -162,3 +162,47 @@ const listOfDepths = function(root) {
 
   return array;
 };
+
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {string[]}
+ */
+
+/*
+        1
+    2       3
+      5
+*/
+var binaryTreePaths = function(root) {
+  if (root === null) {
+    return [];
+  }
+
+  const results = [];
+
+  const dfs = function(current, pathArray) {
+    if (current.left === null && current.right === null) {
+      results.push(pathArray.join('->'));
+      return;
+    }
+
+    if (current.left !== null) {
+      dfs(current.left, pathArray.concat(current.left.val));
+    }
+    if (current.right !== null) {
+      dfs(current.right, pathArray.concat(current.right.val));
+    }
+  }
+
+  dfs(root, [root.val]);
+
+  return results;
+};
