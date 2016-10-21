@@ -30,28 +30,30 @@ function buildOrder (projects, dependencies) {
     // build node
 
   const dfs = node => {
-    graph.nodes[node].visited = true;
-    let neighbors = graph.edges[node];
+    // console.log('node in dfs', node);
+    node.visited = true;
+    let neighbors = node.edges;
     let numNeighbors = neighbors.length;
 
     for (let i = 0; i < numNeighbors; i++) {
-      if (graph.nodes[neighbors[i]].visited && !graph.nodes[neighbors[i]].built) {
+      if (neighbors[i].visited && !neighbors[i].built) {
         throw new Error('There is no valid build order!');
-      } else if (!graph.nodes[neighbors[i]].visited) {
+      } else if (!neighbors[i].visited) {
         dfs(neighbors[i]);
       }
     }
 
-    graph.nodes[node].built = true;
-    buildOrder.push(node);
+    node.built = true;
+    buildOrder.push(node.val);
   };
 
-  const nodes = Object.keys(graph.nodes);
-  const numNodes = nodes.length;
+  const nodeVals = Object.keys(graph.nodes);
+  const numNodes = nodeVals.length;
 
   for (let i = 0; i < numNodes; i++) {
-    if (!graph.nodes[nodes[i]].visited) {
-      dfs(nodes[i]);
+    let node = graph.nodes[nodeVals[i]];
+    if (!node.visited) {
+      dfs(node);
     }
   }
 
@@ -89,10 +91,10 @@ Graph.prototype = {
 
 
 // Testing
-let testGraph = new Graph();
-testGraph.addNodes(['a', 'b', 'c', 'd']);
-testGraph.addEdges([['a', 'c'], ['b', 'd'], ['a', 'd']]);
-console.log(testGraph.nodes);
+// let testGraph = new Graph();
+// testGraph.addNodes(['a', 'b', 'c', 'd']);
+// testGraph.addEdges([['a', 'c'], ['b', 'd'], ['a', 'd']]);
+// console.log(testGraph.nodes);
 // console.log(testGraph.edges);
 
 // let projects = ['a', 'b', 'c', 'd'];
@@ -107,10 +109,10 @@ console.log(testGraph.nodes);
 // let dependencies = [['a', 'b'], ['b', 'c'], ['c', 'a']];
 // console.assert(buildOrder(projects, dependencies)); // throw Error
 
-// let projects = ['a', 'b', 'c', 'd', 'e', 'f'];
-// let dependencies = generateRandomDependencies(projects, 5);
-// console.log(buildOrder(projects, dependencies), '\n', dependencies);
-
+let projects = ['a', 'b', 'c', 'd', 'e', 'f'];
+let dependencies = generateRandomDependencies(projects, 5);
+console.log('dependencies:', dependencies);
+console.log('build order:', buildOrder(projects, dependencies));
 
 function generateRandomDependencies(projects, numOfDependencies) {
   let firstIx, secondIx;
