@@ -8,26 +8,22 @@
  *   projects: a, b, c, d, e, f
  *   dependencies: (a, d), (f, b), (b, d), (f, a), (d, c)
  * Output: f, e, a, b, d, c
+ *
+ * O(N+M) where N = num of projects, M = num of dependencies
  */
 
 // {array} projects, ['a', 'b', 'c', 'd', 'e', 'f']
 // {array of arrays} dependencies, [['a', 'd'], ..., ['d', 'c']]
+/*
 function buildOrder (projects, dependencies) {
   const buildOrder = [];
-  // directed graph
   const graph = new Graph();
-  graph.addNodes(projects); // nodes = {'a': Node {value: 'a', visited: false, built: false, edges: [Node objs]}, 'b': {}, 'c': {} ... }
+  // nodes = {'a': Node {value: 'a', visited: false, built: false, edges: [Node objs]}, 'b': {}, 'c': {} ... }
   // add edge from A to B if A depends on B
-  graph.addEdges(dependencies) // edges = {'a': ['f'], 'd': ['a', 'b']}
+  graph.addNodes(projects);
+  graph.addEdges(dependencies)
   // console.log('nodes', graph.nodes);
   // console.log('edges', graph.edges);
-
-  // iterate through the nodes of the graph
-  // DFS
-    // for each neighbor
-      // if 'visited' flag is true but 'built' flag is false -> throw error
-      // if 'visited' flag is false then recursive call on that neighbor
-    // build node
 
   const dfs = node => {
     // console.log('node in dfs', node);
@@ -61,13 +57,13 @@ function buildOrder (projects, dependencies) {
 }
 
 
+// Node and Graph class
 function Node(val) {
   this.val = val;
   this.visited = false;
   this.built = false;
   this.edges = [];
 }
-
 
 function Graph() {
   this.nodes = {};
@@ -89,6 +85,51 @@ Graph.prototype = {
   }
 }
 
+*/
+
+// Second implementation using no Node, Graph class
+
+function buildOrder(projects, dependencies) {
+  const order = [];
+  const adjList = {};
+  const visited = new Set();
+  const built = new Set();
+
+  projects.forEach(project => adjList[project] = []);
+  dependencies.forEach(edge => {
+    adjList[edge[1]].push(edge[0]);
+  });
+
+  projects.forEach(project => {
+    if (!visited.has(project)) {
+      topologicalSort(project, adjList, visited, built, order)
+    }
+  });
+
+  return order.join(', ');
+}
+
+const visited = new Set();
+
+function topologicalSort(node, adjList, visited, built, order) {
+  visited.add(node);
+
+  adjList[node].forEach(neighbor => {
+    if (visited.has(neighbor) && !built.has(neighbor)) {
+      throw new Error('Graph has cycle: no valid build order exists!');
+    }
+
+    if (!visited.has(neighbor)) {
+      topologicalSort(neighbor, adjList, visited, built, order);
+    }
+  });
+
+  order.push(node);
+  built.add(node);
+}
+
+// Third implementation using iterative version of topological sort
+
 
 // Testing
 // let testGraph = new Graph();
@@ -109,10 +150,10 @@ Graph.prototype = {
 // let dependencies = [['a', 'b'], ['b', 'c'], ['c', 'a']];
 // console.assert(buildOrder(projects, dependencies)); // throw Error
 
-let projects = ['a', 'b', 'c', 'd', 'e', 'f'];
-let dependencies = generateRandomDependencies(projects, 5);
-console.log('dependencies:', dependencies);
-console.log('build order:', buildOrder(projects, dependencies));
+// let projects = ['a', 'b', 'c', 'd', 'e', 'f'];
+// let dependencies = generateRandomDependencies(projects, 5);
+// console.log('dependencies:', dependencies);
+// console.log('build order:', buildOrder(projects, dependencies));
 
 function generateRandomDependencies(projects, numOfDependencies) {
   let firstIx, secondIx;
