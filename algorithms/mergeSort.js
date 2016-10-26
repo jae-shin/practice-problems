@@ -6,12 +6,13 @@
  *   Best Case: O(n log(n))
  *   Worst Case: O(n log(n))
  *
- * Space Complexity: for 2nd implementation -> O(n) for the helper array
+ * Space Complexity:
+ *   for 2nd implementation: O(n) for the helper array
  *
  */
 
 function mergeSort(arr) {
-  if (arr.length === 1) {
+  if (arr.length <= 1) {
     return arr;
   }
 

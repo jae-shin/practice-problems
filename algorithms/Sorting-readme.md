@@ -24,7 +24,7 @@ Best Case: `O(n log(n))`
 
 Average: `O(n log(n))`
 Worst Case: `O(n^2)`
-Best Case: `O(n log(n))`
+Best Case:
 
 ### Algorithm:
 1. Choose the pivot element.
