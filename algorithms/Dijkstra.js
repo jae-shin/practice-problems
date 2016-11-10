@@ -21,7 +21,7 @@ Algorithm:
  *
  */
 
-// {Map object} edgeWeightMap (key, value) = (['a', 'b'], 4)
+// {Map object} edgeWeightMap (key, value) = (['ab'], 4)
 // {Object} adjList {'a': ['b', 'f']}
 // {array} nodes ['a', 'b']
 // {String node} startNode 'a'
