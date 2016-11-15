@@ -45,7 +45,7 @@ function dijkstra(startNode, endNode, nodes, adjList, edgeWeightMap) {
   }
 
   previous[startNode] = null;
-  currentNode = startNode;
+  let currentNode = startNode;
 
   while (currentNode) {
     console.log(currentNode, path_weight, previous);
@@ -90,6 +90,48 @@ function getNextNode(remaining) {
   }
 
   return nextNode;
+}
+
+// using Graph and Node classes
+function dijkstra2(graph, start, end) {
+  let remaining = new Map();
+  graph.nodes.forEach(node => {
+    if (node === start) {
+      node.pathWeight = 0;
+    } else {
+      node.pathWeight = Infinity;
+    }
+    remaining.set(node, node.pathWeight);
+  });
+  start.prev = null;
+
+  let next = start;
+  while (next) {
+    next.adj.forEach(neigh => {
+      let pathSum = next.pathWeight + getEdgeWeight(next, neigh);
+      if (pathSum < neigh.pathWeight) {
+        neigh.prev = next;
+        neigh.pathWeight = pathSum;
+        remaining.set(neigh, pathSum);
+      }
+    });
+    remaining.delete(next);
+    next = getNextNode2(remaining);
+  }
+
+  return end.pathWeight;
+}
+
+function getNextNode2(remaining) {
+  let min = Infinity;
+  let next = null;
+  for(let [key, value] of remaining.entries()) {
+    if (value < min) {
+      min = value;
+      next = key;
+    }
+  }
+  return next;
 }
 
 // Testing

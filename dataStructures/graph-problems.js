@@ -72,6 +72,50 @@ function hasCycle(node) {
 }
 
 
+/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @return {number}
+ */
+function countComponents(n, edges) {
+  if (edges.length === 0) {
+    return n;
+  }
+
+  const adjList = {};
+  const nodes = new Set();
+  const setItr = nodes[Symbol.iterator]();
+
+  let cnt = 0;
+  for (let i = 0; i < n; i++) {
+    nodes.add(i);
+    adjList[i] = [];
+  }
+
+  edges.forEach(([first, sec]) => {
+    adjList[first].push(sec);
+    adjList[sec].push(first);
+  });
+
+  while (nodes.size > 0) {
+    cnt++;
+    let next = setItr.next().value;
+    nodes.delete(next);
+    dfs(adjList, nodes, next);
+  }
+
+  return cnt;
+}
+
+function dfs(adjList, nodes, next) {
+  adjList[next].forEach(neigh => {
+    if (nodes.has(neigh)) {
+      nodes.delete(neigh);
+      dfs(adjList, nodes, neigh);
+    }
+  });
+}
+
 
 
 let g = new Graph();
