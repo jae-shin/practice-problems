@@ -109,8 +109,6 @@ function buildOrder(projects, dependencies) {
   return order.join(', ');
 }
 
-const visited = new Set();
-
 function topologicalSort(node, adjList, visited, built, order) {
   visited.add(node);
 
@@ -150,10 +148,10 @@ function topologicalSort(node, adjList, visited, built, order) {
 // let dependencies = [['a', 'b'], ['b', 'c'], ['c', 'a']];
 // console.assert(buildOrder(projects, dependencies)); // throw Error
 
-// let projects = ['a', 'b', 'c', 'd', 'e', 'f'];
-// let dependencies = generateRandomDependencies(projects, 5);
-// console.log('dependencies:', dependencies);
-// console.log('build order:', buildOrder(projects, dependencies));
+let projects = ['a', 'b', 'c', 'd', 'e', 'f'];
+let dependencies = generateRandomDependencies(projects, 5);
+console.log('dependencies:', dependencies);
+console.log('build order:', buildOrder(projects, dependencies));
 
 function generateRandomDependencies(projects, numOfDependencies) {
   let firstIx, secondIx;
@@ -171,6 +169,4 @@ function generateRandomDependencies(projects, numOfDependencies) {
 
   return dependencies;
 };
-
-// console.log(generateRandomDependencies(projects, 5));
 

@@ -1,3 +1,5 @@
+const { Graph, Node } = require('../dataStructures/Graph');
+
 /**
  * Topological sort
  *
@@ -5,7 +7,7 @@
 
 Init vars:
   queue 'order': stores the valid topological sort
-  queue 'processNext': store th next nodes to process
+  queue 'processNext': stores the next nodes to process
 
 Algorithm:
   1. Iterate through all the Nodes in the graph and count the number of incoming edges, store in node.inbound
@@ -31,7 +33,7 @@ function topologicalSort(graph) {
 
   const nodes = graph.nodes;
   nodes.forEach(node => {
-    node.edges.forEach(neighbor => {
+    node.adj.forEach(neighbor => {
       neighbor.inbound++;
     });
   });
@@ -44,8 +46,8 @@ function topologicalSort(graph) {
 
   while (processNext.length !== 0) {
     let currentNode = processNext.shift();
-    order.push(currentNode);
-    currentNode.edges.forEach(neighbor => {
+    order.push(currentNode.val);
+    currentNode.adj.forEach(neighbor => {
       neighbor.inbound--;
       if (neighbor.inbound === 0) {
         processNext.push(neighbor);
@@ -60,6 +62,58 @@ function topologicalSort(graph) {
   }
 }
 
+// using a set for processNext
+function topologicalSort2(graph) {
+  const order = [];
+  const processNext = new Set();
+
+  const nodes = graph.nodes;
+  nodes.forEach(node => {
+    node.adj.forEach(neighbor => {
+      neighbor.inbound++;
+    });
+  });
+
+  nodes.forEach(node => {
+    if (node.inbound === 0) {
+      processNext.add(node);
+    }
+  });
+
+  const setItr = processNext[Symbol.iterator]();
+
+  while (processNext.size > 0) {
+    let currentNode = setItr.next().value;
+    processNext.delete(currentNode);
+    order.push(currentNode.val);
+    currentNode.adj.forEach(neighbor => {
+      neighbor.inbound--;
+      if (neighbor.inbound === 0) {
+        processNext.add(neighbor);
+      }
+    });
+  }
+
+  if (order.length === nodes.length) {
+    return order;
+  } else {
+    return 'Error: cycle has graph!';
+  }
+}
+
 // Recursive version: can implement topological sort with DFS algo if flip the edge convention such that if (a, b) is an edge in the graph, 'b' needs to come before 'a'
 // see ../buildOrder.js
 
+
+// Testing
+let graph = new Graph();
+let nodeA = new Node('a');
+let nodeB = new Node('b');
+let nodeC = new Node('c');
+let nodeD = new Node('d');
+let nodeE = new Node('e');
+let nodeF = new Node('f');
+graph.addNodes([nodeA, nodeB, nodeC, nodeD, nodeE, nodeF]);
+graph.addEdge(nodeE, nodeC).addEdge(nodeB, nodeA).addEdge(nodeF, nodeD).addEdge(nodeF, nodeC).addEdge(nodeB, nodeF);
+console.log(topologicalSort(graph));
+console.log(topologicalSort2(graph));

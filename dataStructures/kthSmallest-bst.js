@@ -52,17 +52,17 @@ var kthSmallest = function(root, k) {
   // dfs function that takes a node and does a in-order dfs traversal
   const dfs = function(node) {
     // base case
-    if (cnt === k) {
+    if (node.left !== null && node.leftCnt + cnt >= k) {
+      dfs(node.left);
       return;
     }
 
-    if (node.left !== null) {
-      dfs(node.left);
-    }
-
+    cnt += node.leftCnt;
     cnt += 1;
+
     if (cnt === k) {
       kth = node.value;
+      return;
     }
 
     if (node.right !== null) {
@@ -76,13 +76,20 @@ var kthSmallest = function(root, k) {
 };
 
 // Testing
-let tree = minimalTree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-// console.log(kthSmallest(tree, 3));
+let tree = new BinarySearchTree(6);
+tree.addValue(3).addValue(9).addValue(2).addValue(5).addValue(8).addValue(10).addValue(1).addValue(4).addValue(7);
+for (let i = 1; i <= 10; i++) {
+  console.assert(kthSmallest(tree, i) === i);
+}
+console.log(kthSmallest(tree, 0));
+console.log(kthSmallest(tree, 11));
+console.log(kthSmallest(tree, 12));
 
-let tree2 = new BinarySearchTree(10);
-console.log(kthSmallest(tree2, 1));
-tree2.addValue(5).addValue(7);
-console.log(kthSmallest(tree2, 2));
+// let tree2 = new BinarySearchTree(10);
+// console.assert(kthSmallest(tree2, 1) === 10);
+// tree2.addValue(5).addValue(7);
+// console.assert(kthSmallest(tree2, 2) === 7);
+
 
 
 

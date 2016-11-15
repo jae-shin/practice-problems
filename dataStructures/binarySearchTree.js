@@ -3,8 +3,8 @@ class BinarySearchTree {
     this.value = val;
     this.left = null;
     this.right = null;
-    // this.maxDepth;
-    // this.minDepth;
+    this.leftCnt = 0;
+    this.rightCnt = 0;
   }
 
   addValue(val) {
@@ -16,12 +16,14 @@ class BinarySearchTree {
       } else {
         this.right.addValue(val);
       }
+      this.rightCnt += 1;
     } else {
       if (this.left === null) {
         this.left = new BinarySearchTree(val);
       } else {
         this.left.addValue(val);
       }
+      this.leftCnt += 1;
     }
 
     return this;
@@ -59,7 +61,7 @@ class BinarySearchTree {
 
     const visitAllLeafsDFS = (node, depthSoFar) => {
       if (!node.left && !node.right) {
-        console.log('Found Leaf', node.value, 'at depth', depthSoFar);
+        // console.log('Found Leaf', node.value, 'at depth', depthSoFar);
         minDepth = Math.min(depthSoFar, minDepth);
         maxDepth = Math.max(depthSoFar, maxDepth);
       }
@@ -109,11 +111,11 @@ const depthFirstSearch = function(root, visit) {
 
 let bstree = new BinarySearchTree(8);
 bstree.addValue(4).addValue(10).addValue(15).addValue(7).addValue(1).addValue(11).addValue(6).addValue(13).addValue(14);
-console.log('before', bstree.toArray());
+// console.log('before', bstree.toArray());
 // console.log(bstree.toArray());
 // console.log(bstree.calculateMinMaxDepth());
 rebalancedTree = bstree.rebalance();
-console.log('after', rebalancedTree.toArray());
+// console.log('after', rebalancedTree.toArray());
 
 
 // Given a sorted (increasing order) array with unique integer elements, write an algo to create a binary search tree with minimal height.

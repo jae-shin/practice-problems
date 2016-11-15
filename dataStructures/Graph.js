@@ -5,41 +5,53 @@ class Graph {
   }
 
   addNode(node) {
-    this.nodes.push(node)
+    this.nodes.push(node);
+    return this;
+  }
+
+  addNodes(nodes) {
+    this.nodes = nodes;
     return this;
   }
 
   addEdge(fromNode, toNode) {
-    fromNode.edges.push(toNode);
+    fromNode.adj.push(toNode);
+    return this;
+  }
+
+  addUndirEdge(fromNode, toNode) {
+    fromNode.adj.push(toNode);
+    toNode.adj.push(fromNode);
     return this;
   }
 
   print() {
     return this.nodes.reduce((memo, node) => {
-      memo.push(node.edges.reduce((innerMemo, edgeNode) => {
-        innerMemo.push(`${edgeNode.value}`);
+      memo.push(node.adj.reduce((innerMemo, edgeNode) => {
+        innerMemo.push(`${edgeNode.val}`);
         return innerMemo;
-      }, [`${node.value}:`]).join(' '));
+      }, [`${node.val}:`]).join(' '));
       return memo;
     }, []).join('\n');
   }
 }
 
 class Node {
-  constructor(value) {
-    this.value = value;
-    this.edges = [];
+  constructor(val) {
+    this.val = val;
+    this.adj = [];
     this.visited = false; // DFS
     this.enqueued = false; // BFS
+    this.inbound = 0;
   }
 }
 
-const depthFirstSearch = (root, visit) => {
-  visit(root);
-  root.visited = true;
-  root.edges.forEach(node => {
-    if (!node.visited) {
-      depthFirstSearch(node, visit);
+const depthFirstSearch = (node, visit) => {
+  visit(node);
+  node.visited = true;
+  node.adj.forEach(neigh => {
+    if (!neigh.visited) {
+      depthFirstSearch(neigh, visit);
     }
   });
 };
@@ -53,7 +65,7 @@ const breadthFirstSearch = (root, visit) => {
   while (queue.length > 0) {
     current = queue.shift();
     visit(current);
-    current.edges.forEach(node => {
+    current.adj.forEach(node => {
       if (!node.enqueued) {
         queue.push(node);
         node.enqueued = true;
@@ -70,14 +82,26 @@ let node3 = new Node(3);
 let node4 = new Node(4);
 let node5 = new Node(5);
 
+/*
+exampleG
+
+0: 1, 4, 5
+1: 3, 4
+2: 1
+3: 2, 4
+4:
+5:
+ */
+
 exampleG.addNode(node0).addNode(node1).addNode(node2).addNode(node3).addNode(node4).addNode(node5);
 exampleG.addEdge(node0, node1).addEdge(node0, node4)
   .addEdge(node0, node5).addEdge(node1, node3)
   .addEdge(node1, node4).addEdge(node2, node1)
   .addEdge(node3, node2).addEdge(node3, node4);
+
 // console.log(exampleG.print());
-// depthFirstSearch(node0, node => console.log(`Node ${node.value}`)); // 0 1 3 2 4 5
-// breadthFirstSearch(node0, node => console.log(`Node ${node.value}`)); // 0 1 4 5 3 2
+// depthFirstSearch(node0, node => console.log(`Node ${node.val}`)); // 0 1 3 2 4 5
+// breadthFirstSearch(node0, node => console.log(`Node ${node.val}`)); // 0 1 4 5 3 2
 
 
 
