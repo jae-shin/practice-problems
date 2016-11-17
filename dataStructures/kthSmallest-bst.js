@@ -49,30 +49,29 @@ var kthSmallest = function(root, k) {
   let cnt = 0;
   let kth;
 
-  // dfs function that takes a node and does a in-order dfs traversal
+  // dfs function that takes a node and does an in-order dfs traversal
   const dfs = function(node) {
-    // base case
     if (node.left !== null && node.leftCnt + cnt >= k) {
-      dfs(node.left);
-      return;
+      return dfs(node.left);
     }
 
     cnt += node.leftCnt;
     cnt += 1;
 
     if (cnt === k) {
-      kth = node.value;
-      return;
+      // kth = node.value;
+      // return;
+      return node.value;
     }
 
     if (node.right !== null) {
-      dfs(node.right);
+      return dfs(node.right);
     }
   }
 
-  dfs(root);
+  return dfs(root);
 
-  return kth;
+  //return kth;
 };
 
 // Testing
@@ -81,9 +80,9 @@ tree.addValue(3).addValue(9).addValue(2).addValue(5).addValue(8).addValue(10).ad
 for (let i = 1; i <= 10; i++) {
   console.assert(kthSmallest(tree, i) === i);
 }
-console.log(kthSmallest(tree, 0));
-console.log(kthSmallest(tree, 11));
-console.log(kthSmallest(tree, 12));
+console.assert(kthSmallest(tree, 0) === undefined);
+console.assert(kthSmallest(tree, 11) === undefined);
+console.assert(kthSmallest(tree, 12) === undefined);
 
 // let tree2 = new BinarySearchTree(10);
 // console.assert(kthSmallest(tree2, 1) === 10);
